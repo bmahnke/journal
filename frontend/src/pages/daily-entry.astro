@@ -1,0 +1,20 @@
+---
+import SidebarLayout from '../layouts/SidebarLayout.astro';
+import DailyEntryComponent from "../components/react/DailyEntryComponent";
+
+import { type DailyEntry } from '../types/DailyEntry';
+
+const entry: DailyEntry = {
+    date: new Date(),
+    attention: '',
+    emotions: '',
+    physicality: '',
+    mantra: '',
+    grateful: '',
+    entry: ''
+}
+---
+
+<SidebarLayout>
+    <DailyEntryComponent dailyEntry={entry} client:load/>
+</SidebarLayout>
