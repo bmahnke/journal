@@ -1,40 +1,55 @@
 // src/components/react/DashboardComponent.tsx
 import { type DailyEntry } from "../../types/DailyEntry"
-import { useState, type ChangeEvent } from "react"
+import { useState, useEffect, type ChangeEvent } from "react"
 import TextEntryComponent from "./TextEntryComponent"
 import InsightComponent from "./InsightComponent"
 import { useDailyEntry } from "./hooks/useDailyEntry"
 import rightChevron from "../../assets/right-chevron.svg"
 import { getAttributeLabel } from "../../util/daily-entry-util";
 import DialogComponent from "./DialogComponent"
+import { type Tag } from "../../types/Tag"
 
 export default function DashboardComponent() {
-    const entry = useDailyEntry(new Date(2024, 12, 31, 0, 0, 0, 0));
+    const [entry, setEntry] = useState<DailyEntry>({
+        date: new Date(2025, 1, 1, 0, 0, 0, 0),
+        attention: 'test',
+        emotions: "",
+        physicality: "",
+        mantra: "",
+        grateful: "",
+        entry: "",
+        tags: new Array<Tag>()
+    })
+
+    // TODO... fetch actual daily entry
+    // useEffect(() => {
+    //     setEntry({
+    //         date: new Date(2025, 1, 1, 0, 0, 0, 0),
+    //         attention: 'test',
+    //         emotions: "",
+    //         physicality: "",
+    //         mantra: "",
+    //         grateful: "",
+    //         entry: "",
+    //         tags: new Array<Tag>()
+    //     })
+    // }, []);
+
     const [dialog, setDialog] = useState(false)
 
     const [entryEdit, setEntryEdit] = useState<{attribute: string, label: string, value: string}>( { attribute: "", label: "", value: ""} )
 
-    var checkList = [
-        { attribute: "attention", value: entry?.attention },
-        { attribute: "grateful", value: entry?.grateful },
-        { attribute: "mantra", value: entry?.mantra },
-        { attribute: "emotions", value: entry?.emotions },
-        { attribute: "physicality", value: entry?.physicality },
-        { attribute: "entry", value: entry?.entry },
-    ]
-
     function handleEntryUpdate(value: string) {
         setEntryEdit(prev => ({ ...prev, value: value}))
-        
-        checkList.filter(x => x.attribute == entryEdit.attribute).forEach(x => x.value = value);
+        setEntry(prev => ({ ...prev, [entryEdit.attribute] : value }))
     }
 
-    function handleEditClick(item : {attribute: string, value: any}) {
+    function handleEditClick(attribute: string, value: any) {
         setEntryEdit(prev => ({ 
                 ...prev, 
-                value: item.value, 
-                attribute: item.attribute, 
-                label: getAttributeLabel(item.attribute)
+                value: value, 
+                attribute: attribute, 
+                label: getAttributeLabel(attribute)
             }) 
         )
 
@@ -50,19 +65,19 @@ export default function DashboardComponent() {
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-                { checkList.filter(item => item.attribute != undefined).map(item => {
+                {entry && Object.entries(entry).map(([attribute, value]) => {
                     return (
-                        <div className="flex flex-row justify-between bg-slate-200 p-2 rounded-md" key={item.attribute}>
+                        <div className={`${['tags', 'date'].includes(attribute) ? 'hidden' : '' } flex flex-row justify-between bg-slate-200 p-2 rounded-md`} key={attribute}>
                             <div className="flex flex-row space-x-4">
-                                <p>{!!item.value ? "✅" : "❌"}</p>
-                                <p>{getAttributeLabel(item.attribute)}</p>
+                                <p>{!!value ? "✅" : "❌"}</p>
+                                <p>{getAttributeLabel(attribute)}</p>
                             </div>
-                            <button type="button" className="hover:bg-slate-300" onClick={(e) => handleEditClick(item)}>
+                            <button type="button" className="hover:bg-slate-300" onClick={(e) => handleEditClick(attribute, value)}>
                                 <img src={rightChevron.src} width="24" height="24" alt="Right Chevron" />
                             </button>
                         </div>
                     )
-                })}
+                }) }
             </div>
 
             {dialog && !!entryEdit.label &&
