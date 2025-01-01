@@ -1,11 +1,13 @@
 ---
+import DashboardComponent from "./react/DashboardComponent"
+import { type DailyEntry } from "../types/DailyEntry";
 
 
 ---
 
 
 <div id="dashboard">
-    Dashboard content
+    <DashboardComponent client:load/>
 </div>
 
 <script>
