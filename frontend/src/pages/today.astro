@@ -2,19 +2,9 @@
 import SidebarLayout from '../layouts/SidebarLayout.astro';
 import DailyEntryComponent from "../components/react/DailyEntryComponent";
 
-import { type DailyEntry } from '../types/DailyEntry';
-import { type Tag } from '../types/Tag';
+import { type DailyEntry, EmptyDailyEntry } from '../types/DailyEntry';
 
-const entry: DailyEntry = {
-    date: new Date(),
-    attention: '',
-    emotions: '',
-    physicality: '',
-    mantra: '',
-    grateful: '',
-    entry: '',
-    tags: new Array<Tag>()
-}
+const entry: DailyEntry = EmptyDailyEntry()
 ---
 
 <SidebarLayout>

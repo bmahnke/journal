@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { TagSchema } from "./Tag";
+import { TagSchema, type Tag } from "./Tag";
 
 export const DailyEntrySchema = z.object({
     date: z.date(),
@@ -13,3 +13,16 @@ export const DailyEntrySchema = z.object({
 });
 
 export type DailyEntry = z.infer<typeof DailyEntrySchema>;
+
+export function EmptyDailyEntry() : DailyEntry {
+    return {
+        date: new Date(),
+        attention: 'test',
+        emotions: "",
+        physicality: "",
+        mantra: "",
+        grateful: "",
+        entry: "",
+        tags: new Array<Tag>()
+    }
+}

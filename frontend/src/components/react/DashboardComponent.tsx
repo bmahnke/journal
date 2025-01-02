@@ -1,5 +1,5 @@
 // src/components/react/DashboardComponent.tsx
-import { type DailyEntry } from "../../types/DailyEntry"
+import { type DailyEntry, EmptyDailyEntry } from "../../types/DailyEntry"
 import { useState, useEffect, type ChangeEvent } from "react"
 import TextEntryComponent from "./TextEntryComponent"
 import InsightComponent from "./InsightComponent"
@@ -10,16 +10,7 @@ import DialogComponent from "./DialogComponent"
 import { type Tag } from "../../types/Tag"
 
 export default function DashboardComponent() {
-    const [entry, setEntry] = useState<DailyEntry>({
-        date: new Date(2025, 1, 1, 0, 0, 0, 0),
-        attention: 'test',
-        emotions: "",
-        physicality: "",
-        mantra: "",
-        grateful: "",
-        entry: "",
-        tags: new Array<Tag>()
-    })
+    const [entry, setEntry] = useState<DailyEntry>(EmptyDailyEntry())
 
     // TODO... fetch actual daily entry
     // useEffect(() => {
