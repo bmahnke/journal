@@ -1,13 +1,11 @@
 // src/components/react/DashboardComponent.tsx
 import { type DailyEntry, EmptyDailyEntry } from "../../types/DailyEntry"
-import { useState, useEffect, type ChangeEvent } from "react"
+import { useState } from "react"
 import TextEntryComponent from "./TextEntryComponent"
 import InsightComponent from "./InsightComponent"
-import { useDailyEntry } from "./hooks/useDailyEntry"
 import rightChevron from "../../assets/right-chevron.svg"
 import { getAttributeLabel } from "../../util/daily-entry-util";
 import DialogComponent from "./DialogComponent"
-import { type Tag } from "../../types/Tag"
 
 export default function DashboardComponent() {
     const [entry, setEntry] = useState<DailyEntry>(EmptyDailyEntry())
