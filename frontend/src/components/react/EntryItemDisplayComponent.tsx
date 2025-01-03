@@ -11,7 +11,16 @@ export default function EntryItemDisplayComponent(props: EntryItemDisplayCompone
         <div className="flex flex-col text-primary-foreground rounded-md bg-purple-200">
             {/* some header */}
             <div className="flex flex-row justify-between">
-                <div className="bg-destructive text-destructive-foreground p-2 inverted-border-radius rounded-br-lg">Mantra</div>
+                <div className="
+                    bg-red-400 
+                    text-destructive-foreground 
+                    p-2 
+                    
+                    inverted-border-radius
+                    inverted-border-radius-left
+                    rounded-br-xl rounded-tl-md z-10"
+                ><span>Mantra</span></div>
+                
                 <Button variant="icon2" size="icon">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2.25C13.5188 2.25 14.75 3.48122 14.75 5C14.75 6.51878 13.5188 7.75 12 7.75C10.4812 7.75 9.25 6.51878 9.25 5C9.25 3.48122 10.4812 2.25 12 2.25ZM13.25 5C13.25 4.30964 12.6904 3.75 12 3.75C11.3096 3.75 10.75 4.30964 10.75 5C10.75 5.69036 11.3096 6.25 12 6.25C12.6904 6.25 13.25 5.69036 13.25 5Z" fill="currentColor"/>
@@ -22,12 +31,12 @@ export default function EntryItemDisplayComponent(props: EntryItemDisplayCompone
             </div>
 
             {/* content */}
-            <div>
+            <div className="p-2">
                 <p>this is the mantra for today as test content.</p>
             </div>
 
             {/* footer */}
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between p-2">
                 <span className="text-xs uppercase">Today</span>
                 <span>🥳</span>
             </div>

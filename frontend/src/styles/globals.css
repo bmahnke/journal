@@ -58,6 +58,25 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .inverted-border-radius {
+    position: relative;
+    background-color: var(--destructive);
+  }
+
+  /* this works for the bottom left corner */
+  .inverted-border-radius-left:after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    background-color: transparent;
+    bottom: -50px;
+    left: 0px;
+    height: 50px;
+    width: 25px;
+    border-top-left-radius: 25px;
+    box-shadow: 0 -25px 0 0 rgb(248 113 113 / var(--tw-bg-opacity, 1));
+  } 
 }
 
 
