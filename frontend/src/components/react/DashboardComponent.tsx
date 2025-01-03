@@ -71,7 +71,7 @@ export default function DashboardComponent() {
                 }) }
             </div>
 
-            <div className="grid grid-cols-3 hidden">
+            <div className="grid grid-cols-3">
                 <EntryItemDisplayComponent />
             </div>
 
