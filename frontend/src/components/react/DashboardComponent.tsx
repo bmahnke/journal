@@ -72,7 +72,11 @@ export default function DashboardComponent() {
             </div>
 
             <div className="grid grid-cols-3">
-                <EntryItemDisplayComponent />
+                <EntryItemDisplayComponent 
+                    emoji="🥳" 
+                    date="Today" 
+                    content="This is test content for seeing what the mantra looks like today. this is a second sentence to see how it looks." 
+                    header="Mantra" />
             </div>
 
             {dialog && !!entryEdit.label &&

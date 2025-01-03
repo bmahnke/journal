@@ -3,6 +3,10 @@
 import { Button } from "../ui/button"
 
 export interface EntryItemDisplayComponentProps {
+    header: string,
+    content: string,
+    date: string,
+    emoji: string
 }
 
 export default function EntryItemDisplayComponent(props: EntryItemDisplayComponentProps) {
@@ -18,7 +22,7 @@ export default function EntryItemDisplayComponent(props: EntryItemDisplayCompone
                     inverted-border-radius
                     inverted-border-radius-left
                     rounded-br-xl rounded-tl-md z-10"
-                ><span className="text-destructive-foreground">Mantra</span></div>
+                ><span className="text-destructive-foreground">{props.header}</span></div>
                 
                 <Button variant="icon2" size="icon" type="button" className="mt-2 mr-2 bg-muted hover:bg-card/30">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -30,14 +34,14 @@ export default function EntryItemDisplayComponent(props: EntryItemDisplayCompone
             </div>
 
             {/* content */}
-            <div className="p-2">
-                <p>this is the mantra for today as test content.</p>
+            <div className="p-2 italic ">
+                <p className="line-clamp-2">{props.content}</p>
             </div>
 
             {/* footer */}
             <div className="flex items-center justify-between p-2 mr-2">
-                <span className="text-xs uppercase">Today</span>
-                <span>🥳</span>
+                <span className="text-xs uppercase">{props.date}</span>
+                <span>{props.emoji}</span>
             </div>
         </div>
     )
