@@ -7,6 +7,7 @@ import rightChevron from "../../assets/right-chevron.svg"
 import { getAttributeLabel } from "../../util/daily-entry-util";
 import DialogComponent from "./DialogComponent"
 import { Button } from "../ui/button"
+import EntryItemDisplayComponent from "./EntryItemDisplayComponent"
 
 export default function DashboardComponent() {
     const [entry, setEntry] = useState<DailyEntry>(EmptyDailyEntry())
@@ -68,6 +69,10 @@ export default function DashboardComponent() {
                         </div>
                     )
                 }) }
+            </div>
+
+            <div className="grid grid-cols-3">
+                <EntryItemDisplayComponent />
             </div>
 
             {dialog && !!entryEdit.label &&
