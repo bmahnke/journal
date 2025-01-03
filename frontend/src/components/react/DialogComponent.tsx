@@ -1,6 +1,6 @@
 // src/components/react/DialogComponent.tsx
 
-import { Children, type ReactNode } from "react"
+import { type ReactNode } from "react"
 
 interface DialogComponentProps {
     isOpen: boolean,
@@ -19,6 +19,8 @@ const sizeToVw = {
 export default function DialogComponent(props: DialogComponentProps) {
     const dialogStyle = {
         width: sizeToVw[props.size],
+        background: "hsl(var(--background))",
+        border: "1px solid hsl(var(--border))",
         "border-radius": "0.375rem",
         filter: "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))"
     };

@@ -6,6 +6,7 @@ import InsightComponent from "./InsightComponent"
 import rightChevron from "../../assets/right-chevron.svg"
 import { getAttributeLabel } from "../../util/daily-entry-util";
 import DialogComponent from "./DialogComponent"
+import { Button } from "../ui/button"
 
 export default function DashboardComponent() {
     const [entry, setEntry] = useState<DailyEntry>(EmptyDailyEntry())
@@ -47,7 +48,7 @@ export default function DashboardComponent() {
 
     return (
         <div className="space-y-4 flex flex-col">
-            <div className="grid grid-cols-3 gap-4 justify-items-center rounded-md bg-slate-200">
+            <div className="grid grid-cols-3 gap-4 justify-items-center rounded-md bg-gray-200 dark:bg-gray-900">
                 <InsightComponent insight="Daily Streak" value="START ONE!" />
                 <InsightComponent insight="Longest Streak" value="START ONE!" />
                 <InsightComponent insight="Average Mood" value="😁" />
@@ -56,14 +57,14 @@ export default function DashboardComponent() {
             <div className="grid grid-cols-2 gap-4">
                 {entry && Object.entries(entry).map(([attribute, value]) => {
                     return (
-                        <div className={`${['tags', 'date'].includes(attribute) ? 'hidden' : '' } flex flex-row justify-between bg-slate-200 p-2 rounded-md`} key={attribute}>
+                        <div className={`${['tags', 'date'].includes(attribute) ? 'hidden' : '' } flex flex-row justify-between p-2 rounded-md`} key={attribute}>
                             <div className="flex flex-row space-x-4">
                                 <p>{!!value ? "✅" : "❌"}</p>
                                 <p>{getAttributeLabel(attribute)}</p>
                             </div>
-                            <button type="button" className="hover:bg-slate-300" onClick={(e) => handleEditClick(attribute, value)}>
-                                <img src={rightChevron.src} width="24" height="24" alt="Right Chevron" />
-                            </button>
+                            <Button type="button" onClick={(e) => handleEditClick(attribute, value)}>
+                                Edit
+                            </Button>
                         </div>
                     )
                 }) }
@@ -71,16 +72,16 @@ export default function DashboardComponent() {
 
             {dialog && !!entryEdit.label &&
                 <DialogComponent autofocus size="large" isOpen={dialog}>
-                    <form method="dialog" className="flex flex-col">
-                        <div className="border-b border-slate-800 p-2 text-lg">
+                    <form method="dialog" className="flex flex-col text-primary">
+                        <div className="border-b border-gray-400 p-4 text-lg">
                             Add some context to today.
                         </div>
-                        <div className="p-2 text-center">
+                        <div className="text-center p-4 pb-8">
                             <TextEntryComponent label={entryEdit.label} value={entryEdit.value} maxLength={9} onUpdate={handleEntryUpdate} />
                         </div>
-                        <div className="flex justify-between border-t border-slate-800 p-2">
-                            <button onClick={(e) => setDialog(false)} value="cancel" className="py-1 px-2 border rounded-md border-slate-400 hover:bg-slate-200" formMethod="dialog">Cancel</button>
-                            <button onClick={(e) => setDialog(false)} id="confirmBtn" className="py-1 px-2 border rounded-md bg-emerald-300 border-emerald-800 hover:bg-emerald-400" value="default">Confirm</button>
+                        <div className="flex justify-between border-t border-gray-400 p-4">
+                            <Button variant="secondary" onClick={(e) => setDialog(false)} value="cancel" className="py-1 px-2 border rounded-md" formMethod="dialog">Cancel</Button>
+                            <Button onClick={(e) => setDialog(false)} id="confirmBtn" className="py-1 px-2 border rounded-md" value="default">Confirm</Button>
                         </div>
                     </form>
                 </DialogComponent>
