@@ -3,11 +3,11 @@ import { type DailyEntry, EmptyDailyEntry } from "../../types/DailyEntry"
 import { useState } from "react"
 import TextEntryComponent from "./TextEntryComponent"
 import InsightComponent from "./InsightComponent"
-import rightChevron from "../../assets/right-chevron.svg"
-import { getAttributeLabel } from "../../util/daily-entry-util";
+import { getAttributeLabel, attributeOnDashboard } from "../../types/DailyEntry"
 import DialogComponent from "./DialogComponent"
 import { Button } from "../ui/button"
 import EntryItemDisplayComponent from "./EntryItemDisplayComponent"
+import { getValue } from "../../lib/utils"
 
 export default function DashboardComponent() {
     const [entry, setEntry] = useState<DailyEntry>(EmptyDailyEntry())
@@ -28,21 +28,24 @@ export default function DashboardComponent() {
 
     const [dialog, setDialog] = useState(false)
 
-    const [entryEdit, setEntryEdit] = useState<{attribute: string, label: string, value: string}>( { attribute: "", label: "", value: ""} )
+    const [entryEdit, setEntryEdit] = useState<{attribute: string, label: string, value: string | Date | number}>( { attribute: "", label: "", value: ""} )
 
     function handleEntryUpdate(value: string) {
         setEntryEdit(prev => ({ ...prev, value: value}))
         setEntry(prev => ({ ...prev, [entryEdit.attribute] : value }))
     }
 
-    function handleEditClick(attribute: string, value: any) {
-        setEntryEdit(prev => ({ 
+    function handleEditClick(attribute: string) : void {
+        const value = getValue(entry, attribute as keyof DailyEntry)
+        
+        if (typeof value === "string") {
+            setEntryEdit(prev => ({ 
                 ...prev, 
                 value: value, 
                 attribute: attribute, 
                 label: getAttributeLabel(attribute)
-            }) 
-        )
+            }))
+        }
 
         setDialog(true)
     }
@@ -55,33 +58,25 @@ export default function DashboardComponent() {
                 <InsightComponent insight="Average Mood" value="😁" />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-                {entry && Object.entries(entry).map(([attribute, value]) => {
-                    return (
-                        <div className={`${['tags', 'date'].includes(attribute) ? 'hidden' : '' } flex flex-row justify-between p-2 rounded-md`} key={attribute}>
-                            <div className="flex flex-row space-x-4">
-                                <p>{!!value ? "✅" : "❌"}</p>
-                                <p>{getAttributeLabel(attribute)}</p>
-                            </div>
-                            <Button type="button" onClick={(e) => handleEditClick(attribute, value)}>
-                                Edit
-                            </Button>
-                        </div>
-                    )
-                }) }
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4">
+                {entry && Object.entries(entry)
+                    .filter(([a, v]) => attributeOnDashboard(a) && typeof v === "string")
+                    .map(([attribute, value]) => (
+                        <EntryItemDisplayComponent 
+                            key={attribute}
+                            emoji={entry.emoji} 
+                            attribute={attribute}
+                            date={entry.date}
+                            content={value} 
+                            header={attribute[0].toUpperCase() + attribute.slice(1)}
+                            onEditClick={() => handleEditClick(attribute)} 
+                        />
+                    ))}
             </div>
 
-            <div className="grid grid-cols-3">
-                <EntryItemDisplayComponent 
-                    emoji="🥳" 
-                    date="Today" 
-                    content="This is test content for seeing what the mantra looks like today. this is a second sentence to see how it looks." 
-                    header="Mantra" />
-            </div>
-
-            {dialog && !!entryEdit.label &&
+            {dialog && !!entryEdit.label && typeof entryEdit.value === "string" &&
                 <DialogComponent autofocus size="large" isOpen={dialog}>
-                    <form method="dialog" className="flex flex-col text-primary">
+                    <form method="dialog" className="flex flex-col text-primary-foreground">
                         <div className="border-b border-gray-400 p-4 text-lg">
                             Add some context to today.
                         </div>

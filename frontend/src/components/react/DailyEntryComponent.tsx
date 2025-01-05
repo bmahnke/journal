@@ -2,7 +2,7 @@
 import { type DailyEntry } from "../../types/DailyEntry"
 import { useState, type ChangeEvent } from "react"
 import TextEntryComponent from "./TextEntryComponent"
-import { getAttributeLabel } from "../../util/daily-entry-util";
+import { getAttributeLabel } from "../../types/DailyEntry"
 import { DatePicker } from "../ui/date-picker";
 
 interface DailyEntryComponentProps {
@@ -36,18 +36,6 @@ export default function DailyEntryComponent(props: DailyEntryComponentProps) {
         setEntry(prevEntry => ({ ...prevEntry, physicality: value }));
     }
 
-    // TODO: need to fix this... utc date right now
-    function handleDateUpdate(event: ChangeEvent<HTMLInputElement>) {
-        if (event.target.valueAsDate) {
-            const d = event.target.valueAsDate.toLocaleDateString("en-us", {
-                year: 'numeric',
-                month: 'numeric',
-                day: 'numeric',
-            });
-            setEntry(prevEntry => ({ ...prevEntry, date: new Date(d)}));
-        }
-    }
-
     function onDateChange(date: Date | undefined) {
         if (date) {
             setEntry(prevEntry => ({ ...prevEntry, date: date }));
@@ -62,13 +50,6 @@ export default function DailyEntryComponent(props: DailyEntryComponentProps) {
                     <h1 className="text-2xl grow">Daily Check-In</h1>
                     <div className="flex flex-row space-x-2 items-center" data-date={entry?.date}>
                         <DatePicker onChange={v => onDateChange(v)} value={entry?.date} />
-
-                        {/* TODO: this is utc... need to be local date
-                        <Label htmlFor="date-selection" className="text-sm">Date</Label>
-                        <input id="date-selection" 
-                                type="date" 
-                                className="p-1 rounded-md min-w-16" 
-                                onChange={v => handleDateUpdate(v)} value={entry.date?.toISOString().slice(0, 10)} /> */}
                     </div>
                 </div>
 

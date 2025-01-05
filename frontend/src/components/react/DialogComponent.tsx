@@ -20,8 +20,9 @@ export default function DialogComponent(props: DialogComponentProps) {
     const dialogStyle = {
         width: sizeToVw[props.size],
         background: "hsl(var(--background))",
+        "zIndex": "20",
         border: "1px solid hsl(var(--border))",
-        "border-radius": "0.375rem",
+        "borderRadius": "0.375rem",
         filter: "drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06))"
     };
 
