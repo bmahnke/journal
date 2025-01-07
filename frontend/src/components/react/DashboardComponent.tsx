@@ -8,6 +8,7 @@ import DialogComponent from "./DialogComponent"
 import { Button } from "../ui/button"
 import EntryItemDisplayComponent from "./EntryItemDisplayComponent"
 import { getValue } from "../../lib/utils"
+import { NumberToEmoji  } from "../../types/DailyEntry"
 
 export default function DashboardComponent() {
     const [entry, setEntry] = useState<DailyEntry>(EmptyDailyEntry())
@@ -64,7 +65,7 @@ export default function DashboardComponent() {
                     .map(([attribute, value]) => (
                         <EntryItemDisplayComponent 
                             key={attribute}
-                            emoji={entry.emoji} 
+                            emoji={NumberToEmoji(entry.emoji)} 
                             attribute={attribute}
                             date={entry.date}
                             content={value} 
@@ -76,7 +77,7 @@ export default function DashboardComponent() {
 
             {dialog && !!entryEdit.label && typeof entryEdit.value === "string" &&
                 <DialogComponent autofocus size="large" isOpen={dialog}>
-                    <form method="dialog" className="flex flex-col text-primary-foreground">
+                    <form method="dialog" className="flex flex-col bg-background text-foreground">
                         <div className="border-b border-gray-400 p-4 text-lg">
                             Add some context to today.
                         </div>

@@ -10,11 +10,33 @@ export const DailyEntrySchema = z.object({
     grateful: z.string(),
     entry: z.string(),
     rating: z.number(),
-    emoji: z.string(),
+    emoji: z.number(),
     tags: z.array(TagSchema)
 });
 
 export type DailyEntry = z.infer<typeof DailyEntrySchema>;
+
+const numberToEmoji: { [key: number]: string } = {
+    1: "😍",
+    2: "😁",
+    3: "🙂",
+    4: "😐",
+    5: "🙁",
+    6: "😡",
+    7: "🤬"
+};
+
+export function EmojiToNumber(emoji: string) : number {
+    for (let [key, value] of Object.entries(numberToEmoji)) {
+        if (value == emoji) return parseInt(key);
+    }
+
+    return 0;
+}
+
+export function NumberToEmoji(num: number) : string {
+    return numberToEmoji[num] || "⛳️";
+}
 
 export function EmptyDailyEntry() : DailyEntry {
     return {
@@ -25,8 +47,8 @@ export function EmptyDailyEntry() : DailyEntry {
         mantra: "",
         grateful: "",
         entry: "",
-        rating: 1,
-        emoji: "😖",
+        rating: 0,
+        emoji: 0,
         tags: new Array<Tag>()
     }
 }
