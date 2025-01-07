@@ -26,7 +26,7 @@ export function EmptyDailyEntry() : DailyEntry {
         grateful: "",
         entry: "",
         rating: 1,
-        emoji: "",
+        emoji: "😖",
         tags: new Array<Tag>()
     }
 }

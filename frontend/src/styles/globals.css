@@ -31,6 +31,18 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+
+    --lint: #9FA975;
+    --lint-foreground: #1C1F0F;
+
+    --baby-blue: #94CFD6;
+    --baby-blue-foreground: #08363A;
+    
+    --coral: #EC755D;
+    --coral-foreground: #3B140E;
+
+    --ivory: #E0EEE5;
+    --ivory-foreground: #21302B;    
   }
 
   .dark {
@@ -58,6 +70,18 @@
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --lint: #5A6343;
+    --lint-foreground: #F4FADC;
+
+    --baby-blue: #2A6D72;
+    --baby-blue-foreground: #E9FCFD;
+
+    --coral: #8A3E31;
+    --coral-foreground: #FFD8C8;
+
+    --ivory: #2A3C36;
+    --ivory-foreground: #D7F2E9;
   }
 
   .inverted-border-radius {

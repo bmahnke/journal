@@ -49,7 +49,23 @@ export default {
     				'3': 'hsl(var(--chart-3))',
     				'4': 'hsl(var(--chart-4))',
     				'5': 'hsl(var(--chart-5))'
-    			}
+    			},
+    			lint: {
+    				DEFAULT: 'var(--lint)',
+    				foreground: 'var(--lint-foreground)'
+    			},
+				"baby-blue": {
+    				DEFAULT: 'var(--baby-blue)',
+    				foreground: 'var(--baby-blue-foreground)'
+    			},
+				coral: {
+    				DEFAULT: 'var(--coral)',
+    				foreground: 'var(--coral-foreground)'
+    			},
+				ivory: {
+    				DEFAULT: 'var(--ivory)',
+    				foreground: 'var(--ivory-foreground)'
+    			},				
     		}
     	}
     },
