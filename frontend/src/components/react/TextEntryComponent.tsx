@@ -1,8 +1,15 @@
 // src/components/react/TextEntryComponent.jsx
 import { useState, useId, type ChangeEvent } from 'react';
-import { getWordCount } from '../../util/text-util';
-import { Textarea } from '../ui/textarea';
-import { Label } from '../ui/label';
+import { getWordCount } from '@/util/text-util';
+import { Textarea } from '@/components/ui/textarea';
+
+import {
+  FormControl,
+  FormDescription,
+  FormItem,
+  FormLabel
+} from "@/components/ui/form"
+
 
 interface TextEntryComponentProps {
   label: string,
@@ -35,11 +42,13 @@ export default function TextEntryComponent(props: TextEntryComponentProps) {
 
   return (
     <div className='relative rounded-md'>
-      <div className='flex flex-col space-y-2'>
-        <Label className='text-center' htmlFor={key}>{props.label}</Label>
-        <Textarea onChange={handleOnChnage} className='p-2 rounded-md' id={key} value={text} />
-      </div>
-      <p className='text-sm absolute right-0'>remaining words: {remaining}</p>
+      <FormItem className='flex flex-col space-y-2'>
+        <FormLabel className='text-center' htmlFor={key}>{props.label}</FormLabel>
+        <FormControl>
+          <Textarea onChange={handleOnChnage} className='p-2 rounded-md' id={key} value={text} />
+        </FormControl>
+      </FormItem>
+      <FormDescription className='text-sm absolute right-0'>remaining words: {remaining}</FormDescription>
     </div>
   );
 }

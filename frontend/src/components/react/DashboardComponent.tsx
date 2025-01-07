@@ -1,17 +1,50 @@
 // src/components/react/DashboardComponent.tsx
-import { type DailyEntry, EmptyDailyEntry } from "../../types/DailyEntry"
 import { useState } from "react"
-import TextEntryComponent from "./TextEntryComponent"
-import InsightComponent from "./InsightComponent"
-import { getAttributeLabel, attributeOnDashboard } from "../../types/DailyEntry"
-import DialogComponent from "./DialogComponent"
-import { Button } from "../ui/button"
-import EntryItemDisplayComponent from "./EntryItemDisplayComponent"
-import { getValue } from "../../lib/utils"
-import { NumberToEmoji  } from "../../types/DailyEntry"
+import { z } from 'zod';
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+
+import { type Tag } from "@/types/Tag";
+import { 
+    type DailyEntry, 
+    DailyEntrySchema, 
+    EmptyDailyEntry, 
+    getAttributeLabel, 
+    attributeOnDashboard,
+    NumberToEmoji
+} from "@/types/DailyEntry"
+
+import { Button } from "@/components/ui/button"
+import TextEntryComponent from "@/components/react/TextEntryComponent"
+import InsightComponent from "@/components/react/InsightComponent"
+import DialogComponent from "@/components/react/DialogComponent"
+import EntryItemDisplayComponent from "@/components/react/EntryItemDisplayComponent"
+
+import {
+    Form,
+    FormField,
+  } from "@/components/ui/form"
+
+import { getValue } from "@/lib/utils"
 
 export default function DashboardComponent() {
     const [entry, setEntry] = useState<DailyEntry>(EmptyDailyEntry())
+
+    const form = useForm<z.infer<typeof DailyEntrySchema>>({
+        resolver: zodResolver(DailyEntrySchema),
+        defaultValues: {
+            date: new Date(),
+            attention: 'test',
+            emotions: "",
+            physicality: "",
+            mantra: "",
+            grateful: "",
+            entry: "",
+            rating: 0,
+            emoji: 0,
+            tags: new Array<Tag>()
+        },
+    }); 
 
     // TODO... fetch actual daily entry
     // useEffect(() => {
@@ -38,15 +71,20 @@ export default function DashboardComponent() {
 
     function handleEditClick(attribute: string) : void {
         const value = getValue(entry, attribute as keyof DailyEntry)
-        
-        if (typeof value === "string") {
-            setEntryEdit(prev => ({ 
-                ...prev, 
-                value: value, 
-                attribute: attribute, 
-                label: getAttributeLabel(attribute)
-            }))
+
+        if (typeof value !== "string") {
+            return;
         }
+
+        form.reset();
+        form.setValue(attribute as keyof DailyEntry, value);
+
+        setEntryEdit(prev => ({ 
+            ...prev, 
+            value: value, 
+            attribute: attribute, 
+            label: getAttributeLabel(attribute)
+        }))
 
         setDialog(true)
     }
@@ -77,18 +115,28 @@ export default function DashboardComponent() {
 
             {dialog && !!entryEdit.label && typeof entryEdit.value === "string" &&
                 <DialogComponent autofocus size="large" isOpen={dialog}>
-                    <form method="dialog" className="flex flex-col bg-background text-foreground">
-                        <div className="border-b border-gray-400 p-4 text-lg">
-                            Add some context to today.
-                        </div>
-                        <div className="text-center p-4 pb-8">
-                            <TextEntryComponent label={entryEdit.label} value={entryEdit.value} maxLength={9} onUpdate={handleEntryUpdate} />
-                        </div>
-                        <div className="flex justify-between border-t border-gray-400 p-4">
-                            <Button variant="secondary" onClick={(e) => setDialog(false)} value="cancel" className="py-1 px-2 border rounded-md" formMethod="dialog">Cancel</Button>
-                            <Button onClick={(e) => setDialog(false)} id="confirmBtn" className="py-1 px-2 border rounded-md" value="default">Confirm</Button>
-                        </div>
-                    </form>
+                    <Form {...form}>
+                        <form method="dialog" className="flex flex-col bg-background text-foreground">
+                            <div className="border-b border-gray-400 p-4 text-lg">
+                                Add some context to today.
+                            </div>
+                            <div className="text-center p-4 pb-8">
+                                <FormField name={entryEdit.attribute}
+                                    render={({ field }) => (
+                                        <TextEntryComponent 
+                                            label={getAttributeLabel(entryEdit.attribute)} 
+                                            onUpdate={handleEntryUpdate} 
+                                            value={field.value} 
+                                            maxLength={9} />
+                                    )}
+                                />
+                            </div>
+                            <div className="flex justify-between border-t border-gray-400 p-4">
+                                <Button variant="secondary" onClick={(e) => setDialog(false)} value="cancel" className="py-1 px-2 border rounded-md" formMethod="dialog">Cancel</Button>
+                                <Button onClick={(e) => setDialog(false)} id="confirmBtn" className="py-1 px-2 border rounded-md" value="default">Confirm</Button>
+                            </div>
+                        </form>
+                    </Form>
                 </DialogComponent>
             }
         </div>
