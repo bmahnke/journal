@@ -16,8 +16,8 @@ import {
 
 import { Button } from "@/components/ui/button"
 import TextEntryComponent from "@/components/react/TextEntryComponent"
-import InsightComponent from "@/components/react/InsightComponent"
-import DialogComponent from "@/components/react/DialogComponent"
+import InsightComponent from "@/components/react/insights/InsightComponent"
+import DialogComponent from "@/components/react/dialog/DialogComponent"
 import EntryItemDisplayComponent from "@/components/react/EntryItemDisplayComponent"
 
 import {
@@ -91,6 +91,39 @@ export default function DashboardComponent() {
 
     return (
         <div className="space-y-4 flex flex-col">
+            {/* 
+                New LAYOUT:
+
+                    Display:
+                        - Insights
+                            - Daily Streak
+                            - Longest Streak
+                            - Mood
+                                - Today
+                                - Yesterday
+                                - Calendar of the month
+                                - Average Mood
+                            - Weekly Ratings
+                                - This week
+                                - Last week
+                                - Past Month
+                        
+                        - Missing Entries/Prompts to go fill out yesterday's entry
+                            - If yesterday's entry is missing, prompt to fill it out via a card callout that will take you to
+                              ~/journey/:day
+                            - If yesterday's entry is filled out this is not displayed
+
+                        - Daily Entry for the attrbutes we're collecting (EntryItemDisplayComponent)
+                            - Emoji
+                            - Emotions
+                            - Physicality
+                            - Mantra
+                            - Grateful
+                            - Attention
+                            - Thoughts and Feelings
+                            
+                        
+            */}
             <div className="grid grid-cols-3 gap-4 justify-items-center rounded-md bg-gray-200 dark:bg-gray-900">
                 <InsightComponent insight="Daily Streak" value="START ONE!" />
                 <InsightComponent insight="Longest Streak" value="START ONE!" />
